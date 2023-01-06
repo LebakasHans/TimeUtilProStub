@@ -2,6 +2,8 @@ package net.htlgrieskirchen.pos3.timeutil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,7 +16,8 @@ public class TimeUtilPro
     // ########## LOCALDATE METHODS ##########
     
     public static LocalDate intToLocalDate(int date) {
-        return null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return LocalDate.parse(String.valueOf(date), formatter);
     }
 
     public static LocalDate longToLocalDate(long dateTime) {
@@ -22,11 +25,15 @@ public class TimeUtilPro
     }
     
     public static LocalDate dateToLocalDate(Date dateTime) {
-        return null;
+        return new java.sql.Date(dateTime.getTime()).toLocalDate();
     }
     
     public static LocalDate calendarToLocalDate(Calendar dateTime) {
-        return null;
+        //TODO find out why the fuck month is 8 and not 7 after conversion
+        var test = dateTime.get(Calendar.MONTH);
+        var test2 = dateTime.getTime().getMonth();
+
+        return dateTime.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
     
     // ########## LOCALDATETIME METHODS ##########
